@@ -18,6 +18,12 @@ class PlayerStore {
       this.connectedPlayers.delete(id);
     }
   }
+  getPlayer(id: number) {
+    return this.connectedPlayers.get(id);
+  }
+  getAllPlayers() {
+    return [...this.connectedPlayers.entries()];
+  }
 
   /**
    * Handle the updates of player transforms

@@ -22,16 +22,28 @@ io.on('connection', (socket) => {
    * 1. Add their socket to the store
    * 2. Generate a random player
    * 3. Add new random player to the store
-   * 4. Send the setup player message to the
    */
   const id = allSockets.addSocket(socket);
   const newPlayer = generateRandomPlayer();
   allPlayers.addPlayer(id, newPlayer);
+  const newPlayerDetails = {
+    ...newPlayer,
+    id,
+  };
 
-  socket.emit('setup', { ...newPlayer, id });
+  /** Send this new player their setup data - allowing them to join the world */
+  socket.emit('me:setup', newPlayerDetails);
+
+  /** Send this new player all of the other players - allowing them to add them to their world */
+  socket.emit('players:existing', allPlayers.getAllPlayers());
+
+  /** Broadcast to everyone that this new player has joined */
+  io.emit('player:joined', { ...newPlayer, id });
 
   socket.on('disconnect', () => {
     console.log('User disconnected');
+    allSockets.removeSocket(id);
+    allPlayers.removePlayer(id);
   });
 });
 
