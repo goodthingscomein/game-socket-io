@@ -40,7 +40,14 @@ io.on('connection', (socket) => {
   /** Broadcast to everyone that this new player has joined */
   io.emit('player:joined', { ...newPlayer, id });
 
-  socket.on('player:transform', (data) => io.emit('player:transform', { id, ...data }));
+  socket.on('player:transform', (data) => {
+    const movingPlayer = allPlayers.getPlayer(id);
+    if (movingPlayer) {
+      movingPlayer.position.copy(data.position);
+      movingPlayer.rotation.copy(data.rotation);
+    }
+    io.emit('player:transform', { id, ...data });
+  });
 
   socket.on('disconnect', () => {
     console.log('User disconnected');
