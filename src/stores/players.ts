@@ -1,4 +1,4 @@
-import type { ColorRepresentation, Vector3 } from 'three';
+import type { ColorRepresentation, Vector3, Euler } from 'three';
 
 class PlayerStore {
   connectedPlayers: Map<number, Player>;
@@ -33,16 +33,16 @@ class PlayerStore {
     if (!player) return;
     player.position.copy(newPos);
   }
-  setPlayerRotationY(id: number, newRotY: number) {
+  setPlayerRotationY(id: number, newRot: Euler) {
     const player = this.connectedPlayers.get(id);
     if (!player) return;
-    player.rotationY = newRotY;
+    player.rotation = newRot;
   }
-  setPlayerTransform(id: number, newPos: Vector3, newRotY: number) {
+  setPlayerTransform(id: number, newPos: Vector3, newRot: Euler) {
     const player = this.connectedPlayers.get(id);
     if (!player) return;
     player.position.copy(newPos);
-    player.rotationY = newRotY;
+    player.rotation = newRot;
   }
 }
 
@@ -51,5 +51,5 @@ export default PlayerStore;
 type Player = {
   color: ColorRepresentation;
   position: Vector3;
-  rotationY: number;
+  rotation: Euler;
 };
