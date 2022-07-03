@@ -1,10 +1,10 @@
-import { type ColorRepresentation, Vector3 } from 'three';
+import { type ColorRepresentation, Vector3, Euler } from 'three';
 
 export default function generateRandomPlayer(): Player {
   return {
     color: generateRandomHexColor(),
     position: new Vector3(0, 1, 0),
-    rotationY: 0,
+    rotation: new Euler(0, 0, 0),
   };
 }
 
@@ -20,5 +20,5 @@ function generateRandomHexColor() {
 type Player = {
   color: ColorRepresentation;
   position: Vector3;
-  rotationY: number;
+  rotation: Euler;
 };

@@ -40,6 +40,8 @@ io.on('connection', (socket) => {
   /** Broadcast to everyone that this new player has joined */
   io.emit('player:joined', { ...newPlayer, id });
 
+  socket.on('player:transform', (data) => io.emit('player:transform', { id, ...data }));
+
   socket.on('disconnect', () => {
     console.log('User disconnected');
     allSockets.removeSocket(id);
