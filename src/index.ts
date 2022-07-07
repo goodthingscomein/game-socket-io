@@ -17,6 +17,15 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
   console.log('Client connected');
 
+  if (!socket.handshake.headers['player-name'] || typeof socket.handshake.headers['player-name'] !== 'string') {
+    socket.disconnect();
+    return;
+  }
+  if (!socket.handshake.headers['player-class'] || typeof socket.handshake.headers['player-class'] !== 'string') {
+    socket.disconnect();
+    return;
+  }
+
   /**
    * Setup the player
    * 1. Add their socket to the store
@@ -24,7 +33,10 @@ io.on('connection', (socket) => {
    * 3. Add new random player to the store
    */
   const id = allSockets.addSocket(socket);
-  const newPlayer = generateRandomPlayer();
+  const newPlayer = generateRandomPlayer(
+    socket.handshake.headers['player-name'],
+    socket.handshake.headers['player-class']
+  );
   allPlayers.addPlayer(id, newPlayer);
   const newPlayerDetails = {
     ...newPlayer,

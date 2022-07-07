@@ -49,6 +49,8 @@ class PlayerStore {
 export default PlayerStore;
 
 type Player = {
+  playerName: string;
+  playerClass: string;
   color: ColorRepresentation;
   position: Vector3;
   rotation: Euler;
