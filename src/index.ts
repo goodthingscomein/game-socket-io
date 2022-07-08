@@ -52,6 +52,7 @@ io.on('connection', (socket) => {
   /** Broadcast to everyone that this new player has joined */
   io.emit('player:joined', { ...newPlayer, id });
 
+  /** Listen for transform changes - send updates to all players */
   socket.on('player:transform', (data) => {
     const movingPlayer = allPlayers.getPlayer(id);
     if (movingPlayer) {
@@ -59,6 +60,10 @@ io.on('connection', (socket) => {
       movingPlayer.rotation.copy(data.rotation);
     }
     io.emit('player:transform', { id, ...data });
+  });
+
+  socket.on('player:animation', (data: number) => {
+    io.emit('player:animation', { id, index: data });
   });
 
   socket.on('disconnect', () => {

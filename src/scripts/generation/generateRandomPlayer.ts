@@ -5,7 +5,7 @@ export default function generateRandomPlayer(playerName: string, playerClass: st
     playerName,
     playerClass,
     color: generateRandomHexColor(),
-    position: new Vector3(0, 1, 0),
+    position: new Vector3(0, 0, 0),
     rotation: new Euler(0, 0, 0),
   };
 }
